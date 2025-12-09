@@ -364,7 +364,9 @@ class DistriManager(QMainWindow):
         super().__init__()
         self.data_file = '/home/ubuntu/distrimanager/data.json'
         self.tasks = self.load_data()
+        self.dark_mode = False
         self.setup_ui()
+        self.apply_theme()
         
     def setup_ui(self):
         self.setWindowTitle("DistriManager - Sistema de Planejamento de Construção")
@@ -417,6 +419,24 @@ class DistriManager(QMainWindow):
         """)
         report_btn.clicked.connect(self.generate_report)
         title_layout.addWidget(report_btn)
+
+        # Botão de tema
+        self.theme_btn = QPushButton("🌙")
+        self.theme_btn.setFixedSize(40, 40)
+        self.theme_btn.setStyleSheet("""
+            QPushButton {
+                background-color: rgba(255, 255, 255, 0.2);
+                color: white;
+                border: none;
+                border-radius: 20px;
+                font-size: 16px;
+            }
+            QPushButton:hover {
+                background-color: rgba(255, 255, 255, 0.3);
+            }
+        """)
+        self.theme_btn.clicked.connect(self.toggle_theme)
+        title_layout.addWidget(self.theme_btn)
         
         title_bar.setLayout(title_layout)
         main_layout.addWidget(title_bar)
@@ -529,6 +549,82 @@ class DistriManager(QMainWindow):
                                f"Concluídas: {len([t for t in self.tasks if t['status'] == 'Concluído'])}\n"
                                f"Em andamento: {len([t for t in self.tasks if t['status'] in ['Em Progresso', 'Em Revisão']])}\n"
                                f"Pendentes: {len([t for t in self.tasks if t['status'] == 'Backlog'])}")
+
+    def toggle_theme(self):
+        self.dark_mode = not self.dark_mode
+        self.apply_theme()
+        self.theme_btn.setText("☀️" if self.dark_mode else "🌙")
+
+    def apply_theme(self):
+        if self.dark_mode:
+            # Dark Theme
+            self.setStyleSheet("""
+                QMainWindow { background-color: #1e1e1e; }
+                QLabel { color: #e0e0e0; }
+                QScrollArea { background-color: #1e1e1e; border: none; }
+                ColumnWidget { background-color: #2d2d2d; border: 1px solid #3e3e3e; }
+                TaskCard { background-color: #333333; border: 1px solid #444; color: #e0e0e0; }
+                TaskCard:hover { border-color: #0079bf; background-color: #3a3a3a; }
+                QDialog { background-color: #2d2d2d; color: #e0e0e0; }
+                QLineEdit, QTextEdit, QDateEdit, QComboBox { 
+                    background-color: #333; 
+                    color: #e0e0e0; 
+                    border: 1px solid #555; 
+                    padding: 5px;
+                }
+            """)
+            # Atualizar cores específicas dos widgets
+            for column in self.findChildren(ColumnWidget):
+                column.setStyleSheet("""
+                    ColumnWidget {
+                        background-color: #2d2d2d;
+                        border-radius: 10px;
+                        padding: 10px;
+                        border: 1px solid #3e3e3e;
+                    }
+                """)
+                column.findChild(QLabel).setStyleSheet("color: #e0e0e0; padding: 5px; font-weight: bold;")
+                column.findChild(QPushButton).setStyleSheet("""
+                    QPushButton {
+                        background-color: #ffffff10;
+                        border: none;
+                        padding: 8px;
+                        border-radius: 3px;
+                        color: #e0e0e0;
+                        text-align: left;
+                    }
+                    QPushButton:hover {
+                        background-color: #ffffff20;
+                    }
+                """)
+        else:
+            # Light Theme (Default)
+            self.setStyleSheet("")
+            for column in self.findChildren(ColumnWidget):
+                column.setStyleSheet("""
+                    ColumnWidget {
+                        background-color: #ebecf0;
+                        border-radius: 10px;
+                        padding: 10px;
+                    }
+                """)
+                column.findChild(QLabel).setStyleSheet("color: #172b4d; padding: 5px; font-weight: bold;")
+                column.findChild(QPushButton).setStyleSheet("""
+                    QPushButton {
+                        background-color: #091e420a;
+                        border: none;
+                        padding: 8px;
+                        border-radius: 3px;
+                        color: #172b4d;
+                        text-align: left;
+                    }
+                    QPushButton:hover {
+                        background-color: #091e4214;
+                    }
+                """)
+        
+        # Forçar atualização visual
+        self.refresh_board()
 
 
 def main():
