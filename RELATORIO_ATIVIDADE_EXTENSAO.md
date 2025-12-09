@@ -353,19 +353,16 @@ python3 distrimanager.py
 
 ### 10.2 Plataforma Web
 
-**Acesso**:
-1. Navegue para: https://3001-ie4zngc1b8yhzxoiw75id-57e0d62a.manus-asia.computer
-2. Clique em "ÁREA RESTRITA"
-3. Digite a senha: `admin123`
-4. Faça upload do arquivo `data.json` do software desktop
-5. Visualize os gráficos e métricas
-
-**Desenvolvimento Local**:
-```bash
-cd web
-pnpm install
-pnpm dev
-```
+**Acesso Local**:
+1. Clone o repositório: `git clone https://github.com/MazzarinDev/DistriManager.git`
+2. Navegue para a pasta web: `cd DistriManager/web`
+3. Instale as dependências: `pnpm install`
+4. Inicie o servidor: `pnpm dev`
+5. Acesse em seu navegador: `http://localhost:5173`
+6. Clique em "ÁREA RESTRITA"
+7. Digite a senha: `admin123`
+8. Faça upload do arquivo `data.json` do software desktop
+9. Visualize os gráficos e métricas
 
 ---
 
@@ -422,9 +419,8 @@ O sistema está pronto para produção e pode ser facilmente expandido com novas
 | Recurso | URL |
 |---------|-----|
 | Repositório GitHub | https://github.com/MazzarinDev/DistriManager |
-| Página Web (Ao Vivo) | https://3001-ie4zngc1b8yhzxoiw75id-57e0d62a.manus-asia.computer |
-| Landing Page | https://3001-ie4zngc1b8yhzxoiw75id-57e0d62a.manus-asia.computer |
-| Dashboard | https://3001-ie4zngc1b8yhzxoiw75id-57e0d62a.manus-asia.computer/dashboard |
+| Documentação | Veja README.md no repositório |
+| Instruções de Setup | Veja GITHUB_SETUP.md no repositório |
 
 ### C. Arquivos Principais
 
